@@ -1,0 +1,17 @@
+Hôm nay em đã hoàn thiện phần tích hợp giữa hệ thống AI phát hiện tấn công và giao diện giám sát. Cụ thể, em đã kết nối thành công backend FastAPI với frontend React để dữ liệu an ninh mạng có thể hiển thị theo thời gian thực trên dashboard.
+
+Trước tiên, em đã kiểm tra và xác nhận hệ thống AI hoạt động đúng. Các model học máy (Isolation Forest, One-Class SVM, Local Outlier Factor) đã được load thành công và API có thể nhận dữ liệu hành vi người dùng để tính điểm bất thường. Em cũng xác nhận cơ chế firewall thông minh hoạt động: IP có hành vi bất thường nhiều lần sẽ bị đưa vào danh sách chặn, và endpoint /blocked đã trả về đúng danh sách IP bị khóa.
+
+Tiếp theo, em xử lý phần ghi log tấn công. Khi AI phát hiện bất thường, dữ liệu được ghi vào file anomaly_log.csv. Hôm nay em đã test thành công việc đọc lại log qua API /logs và hiển thị được dữ liệu này ở frontend dưới dạng bảng theo thời gian thực.
+
+Sau đó, em sửa lỗi frontend React, cài đặt các thư viện còn thiếu (như axios), và thiết lập cơ chế tự động gọi API mỗi vài giây để cập nhật dữ liệu mới. Dashboard hiện đã hiển thị được:
+
+Bảng log các lần tấn công AI phát hiện
+
+Danh sách IP bị block bởi hệ thống
+
+Biểu đồ thể hiện mức độ bất thường theo thời gian
+
+Em cũng triển khai chức năng mô phỏng tấn công (Simulate Attack) để kiểm thử hệ thống. Khi kích hoạt, hệ thống gửi dữ liệu giả lập hành vi tấn công lên backend, AI nhận diện, ghi log, tăng bộ đếm số lần vi phạm và sau nhiều lần sẽ block IP. Điều này chứng minh toàn bộ pipeline từ phát hiện → ghi log → hiển thị → chặn IP đã hoạt động xuyên suốt.
+
+Tóm lại, trong buổi hôm nay em đã hoàn thành phần kết nối AI với dashboard giám sát, kiểm tra hoạt động của cơ chế phát hiện bất thường, hệ thống ghi log, firewall tự động và giao diện theo dõi thời gian thực.
